@@ -1,11 +1,10 @@
 from pathlib import Path
+from typing import List
 
-INPUT = Path("./2.txt")
 
-
-def part1():
+def part1(input):
     horizontal, vertical = 0, 0
-    for line in INPUT.read_text().splitlines():
+    for line in input:
         direction, amount = line.split(" ")
         amount = int(amount)
         if direction == "forward":
@@ -18,9 +17,9 @@ def part1():
     return horizontal * vertical
 
 
-def part2():
+def part2(input):
     horizontal, depth, aim = 0, 0, 0
-    for line in INPUT.read_text().splitlines():
+    for line in input:
         direction, amount = line.split(" ")
         amount = int(amount)
         if direction == "forward":
@@ -35,4 +34,8 @@ def part2():
 
 
 if __name__ == "__main__":
-    print(part1(), part2())
+    stem: str = Path(__file__).stem
+    input_file = Path("inputs") / (stem + ".txt")
+    input: List[str] = input_file.read_text().splitlines()
+
+    print(part1(input), part2(input))

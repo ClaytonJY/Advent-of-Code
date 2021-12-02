@@ -1,12 +1,11 @@
 from pathlib import Path
+from typing import List
 
-INPUT = Path("./1.txt")
 
-
-def part1():
+def part1(input):
     last = None
     increases = 0
-    for line in INPUT.read_text().splitlines():
+    for line in input:
         current = int(line)
         if last and current > last:
             increases += 1
@@ -15,8 +14,8 @@ def part1():
     return increases
 
 
-def part2():
-    numbers = [int(x) for x in INPUT.read_text().splitlines()]
+def part2(input):
+    numbers = [int(x) for x in input]
 
     past_sum = None
     increases = 0
@@ -30,4 +29,8 @@ def part2():
 
 
 if __name__ == "__main__":
-    print(part1(), part2())
+    stem: str = Path(__file__).stem
+    input_file = Path("inputs") / (stem + ".txt")
+    input: List[str] = input_file.read_text().splitlines()
+
+    print(part1(input), part2(input))
