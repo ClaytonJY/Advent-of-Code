@@ -12,12 +12,12 @@ class Board:
 
     def play(self, numbers: List[int]) -> Dict[str, int]:
         bingo_sum = self.board.shape[0]
-        for i, _ in enumerate(numbers):
-            subset = numbers[: (i + 1)]
+        subsets = (numbers[: (i + 1)] for i in range(len(numbers)))  # generator
+        for subset in subsets:
             mask = np.isin(self.board, subset)
             if bingo_sum in np.concatenate([mask.sum(0), mask.sum(1)]):
-                score = self.board[~mask].sum() * numbers[i]
-                return {"score": score, "turns": i}
+                score = self.board[~mask].sum() * subset[-1]
+                return {"score": score, "turns": len(subset)}
 
 
 @dataclass
