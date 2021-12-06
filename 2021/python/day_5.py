@@ -14,7 +14,11 @@ class Segment(NamedTuple):
     start: Point
     end: Point
 
-    def points(self) -> List[Point]:
+    @property
+    def horizontal(self) -> bool:
+        return (self.start.x != self.end.x) and (self.start.y != self.end.y)
+
+    def path(self) -> List[Point]:
         x1, y1 = self.start
         x2, y2 = self.end
 
@@ -31,24 +35,22 @@ class Segment(NamedTuple):
 class Map:
     segments: List[Segment]
 
+    def paths(self, with_horizontal=False) -> List[List[Point]]:
+        segments = self.segments
+        if not with_horizontal:
+            segments = [segment for segment in segments if not segment.horizontal]
+
+        return [segment.path() for segment in segments]
+
     def part1(self) -> int:
-        segments = [
-            segment
-            for segment in self.segments
-            if (segment.start.x == segment.end.x) or (segment.start.y == segment.end.y)
-        ]
-        points: List[Point] = [
-            point for segment in segments for point in segment.points()
-        ]
+        points: List[Point] = [point for path in self.paths() for point in path]
         counts = Counter(points)
         multiples = [value for value, count in counts.items() if count > 1]
 
         return len(multiples)
 
     def part2(self) -> int:
-        points: List[Point] = [
-            point for segment in self.segments for point in segment.points()
-        ]
+        points: List[Point] = [point for path in self.paths(True) for point in path]
         counts = Counter(points)
         multiples = [value for value, count in counts.items() if count > 1]
 
@@ -75,5 +77,5 @@ if __name__ == "__main__":
     lines = input.read_text().splitlines()
     map = Map.from_lines(lines)
 
-    print(f"part 1: {map.part1()}")
-    print(f"part 2: {map.part2()}")
+    print(f"part 1: {map.part1()}")  # 7297
+    print(f"part 2: {map.part2()}")  # 21308
