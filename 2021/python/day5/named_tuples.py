@@ -73,7 +73,7 @@ class Map:
 
 
 if __name__ == "__main__":
-    input = Path("inputs/day_5.txt")
+    input = Path("input.txt")
     lines = input.read_text().splitlines()
     map = Map.from_lines(lines)
 
