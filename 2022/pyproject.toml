@@ -9,6 +9,7 @@ packages = [{include = "aoc_2022"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 jupyter = "^1.0.0"
+nbconvert = "^7.2.5"
 
 
 [build-system]
